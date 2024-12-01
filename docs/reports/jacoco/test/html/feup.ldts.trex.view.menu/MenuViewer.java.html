@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MenuViewer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.view.menu</a> &gt; <span class="el_source">MenuViewer.java</span></div><h1>MenuViewer.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.view.menu;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
+import feup.ldts.trex.model.elements.Layout;
+import feup.ldts.trex.view.LanternaViewer;
+import feup.ldts.trex.view.Viewer;
+import feup.ldts.trex.view.elements.LayoutViewer;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+<span class="fc" id="L19">public class MenuViewer{</span>
+
+<span class="fc" id="L21">    Viewer viewer = new LanternaViewer();</span>
+<span class="fc" id="L22">    LayoutViewer layoutViewer = new LayoutViewer();</span>
+
+    public Screen initializeMenu() throws URISyntaxException, IOException, FontFormatException {
+<span class="fc" id="L25">        Font font1 = viewer.setFont(&quot;Fonts/versao7.ttf&quot;, 72);</span>
+<span class="fc" id="L26">        Font font2 = viewer.setFont(&quot;Fonts/prstart.ttf&quot;, 72);</span>
+
+<span class="fc" id="L28">        AWTTerminalFontConfiguration cfg = AWTTerminalFontConfiguration.newInstance(font1,font2);</span>
+
+<span class="fc" id="L30">        TerminalSize terminalSize = new TerminalSize(16, 12);</span>
+<span class="fc" id="L31">        Terminal terminal = viewer.setTerminal(terminalSize, cfg);</span>
+<span class="fc" id="L32">        return viewer.setScreen(terminal);</span>
+    }
+
+    public void closeMenu(Screen screen) throws IOException {
+<span class="fc" id="L36">        viewer.closeScreen(screen);</span>
+<span class="fc" id="L37">    }</span>
+
+    public void drawMenu(Screen screen, Layout layout, int optionMenu) throws URISyntaxException, IOException, FontFormatException {
+
+<span class="fc" id="L41">        TextGraphics graphics = screen.newTextGraphics();</span>
+
+<span class="fc" id="L43">        viewer.drawBackground(graphics, &quot;#012000&quot;,screen.getTerminalSize());</span>
+
+<span class="fc" id="L45">        drawOptions(optionMenu, graphics);</span>
+
+<span class="fc" id="L47">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.CYAN),new TerminalPosition(1,9),&quot;Controls ^ v &gt;&quot;);</span>
+
+<span class="fc" id="L49">        layoutViewer.drawLayout(graphics, layout, 11);</span>
+
+<span class="fc" id="L51">        viewer.screenRefresh(screen);</span>
+<span class="fc" id="L52">    }</span>
+
+    public void drawOptions(int optionMenu, TextGraphics graphics){
+<span class="fc" id="L55">        String[] text = new String[]{&quot;TNew GameT&quot;, &quot;New Game&quot;, &quot;T2player gameT&quot;, &quot;2player game&quot;,</span>
+                &quot;TLeaderboardT&quot;, &quot;Leaderboard&quot;,&quot;TLeaveT&quot;,&quot;Leave&quot;};
+<span class="fc" id="L57">        TerminalPosition[] position = new TerminalPosition[]{new TerminalPosition(3,1), new TerminalPosition(4,1),</span>
+                new TerminalPosition(1,3), new TerminalPosition(2,3), new TerminalPosition(1,5),
+                new TerminalPosition(2,5), new TerminalPosition(4,7), new TerminalPosition(5,7)};
+
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        for (int i=0;i&lt;4;i++){</span>
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (i==optionMenu) {</span>
+<span class="fc" id="L63">                graphics.setForegroundColor(TextColor.ANSI.YELLOW_BRIGHT);</span>
+<span class="fc" id="L64">                graphics.putString(position[i*2],text[i*2]);</span>
+            }
+            else {
+<span class="fc" id="L67">                graphics.setForegroundColor(TextColor.ANSI.YELLOW);</span>
+<span class="fc" id="L68">                graphics.putString(position[i*2+1],text[i*2+1]);</span>
+            }
+        }
+<span class="fc" id="L71">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

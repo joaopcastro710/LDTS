@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Leaderboard.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.model.leaderboard</a> &gt; <span class="el_source">Leaderboard.java</span></div><h1>Leaderboard.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.model.leaderboard;
+
+import com.googlecode.lanterna.screen.Screen;
+import feup.ldts.trex.controller.leaderboard.LeaderboardController;
+import feup.ldts.trex.view.leaderboard.LeaderboardViewer;
+
+import java.io.*;
+import java.util.*;
+
+<span class="fc" id="L10">public class Leaderboard {</span>
+
+<span class="fc" id="L12">    String file =&quot;src/main/resources/Leaderboard/scoreLeaders.txt&quot;;</span>
+
+<span class="fc" id="L14">    LeaderboardViewer viewer = new LeaderboardViewer();</span>
+<span class="fc" id="L15">    LeaderboardController controller = new LeaderboardController();</span>
+
+    public void showTop6(Screen screen) throws Exception {
+
+<span class="fc" id="L19">        List&lt;String&gt; allLines = new ArrayList&lt;&gt;(Collections.emptyList());</span>
+
+<span class="fc" id="L21">        BufferedReader reader = new BufferedReader(new FileReader(file));</span>
+<span class="fc" id="L22">        int i=0;</span>
+<span class="fc" id="L23">        String line=reader.readLine();</span>
+<span class="pc bpc" id="L24" title="1 of 2 branches missed.">        while (line!=null){</span>
+<span class="nc" id="L25">            allLines.add(i, line);</span>
+<span class="nc" id="L26">            i++;</span>
+<span class="nc" id="L27">            line=reader.readLine();</span>
+        }
+<span class="fc" id="L29">        reader.close();</span>
+
+<span class="fc" id="L31">        allLines.sort((line1, line2) -&gt; {</span>
+<span class="nc" id="L32">            int score1 = Integer.parseInt(line1.split(&quot; &quot;)[line1.split(&quot; &quot;).length - 1]);</span>
+<span class="nc" id="L33">            int score2 = Integer.parseInt(line2.split(&quot; &quot;)[line2.split(&quot; &quot;).length - 1]);</span>
+<span class="nc" id="L34">            return Integer.compare(score2, score1);</span>
+        });
+
+<span class="fc" id="L37">        int numLines = Math.min(6, allLines.size());</span>
+<span class="fc" id="L38">        List&lt;String&gt; top6 = allLines.subList(0, numLines);</span>
+
+<span class="fc" id="L40">        viewer.displayLeaderboard(screen, top6);</span>
+<span class="fc" id="L41">        boolean next = false;</span>
+<span class="fc bfc" id="L42" title="All 2 branches covered.">        while(!next){</span>
+<span class="fc" id="L43">            viewer.displayLeaderboard(screen,top6);</span>
+<span class="fc" id="L44">            next = controller.processKey(controller.nextAction(screen));</span>
+        }
+<span class="fc" id="L46">    }</span>
+
+    public void addNewLeader(String player, int score) {
+        try {
+<span class="fc" id="L50">            String newLeader = player + &quot; &quot; + score;</span>
+
+<span class="fc" id="L52">            List&lt;String&gt; allLines = new ArrayList&lt;&gt;(Collections.emptyList());</span>
+
+<span class="fc" id="L54">            BufferedReader reader = new BufferedReader(new FileReader(file));</span>
+<span class="fc" id="L55">            int i=0;</span>
+<span class="fc" id="L56">            String line=reader.readLine();</span>
+<span class="pc bpc" id="L57" title="1 of 2 branches missed.">            while (line!=null){</span>
+<span class="nc" id="L58">                allLines.add(i, line);</span>
+<span class="nc" id="L59">                i++;</span>
+<span class="nc" id="L60">                line = reader.readLine();</span>
+            }
+<span class="fc" id="L62">            reader.close();</span>
+
+<span class="fc" id="L64">            writeNewPosition(allLines, score, newLeader);</span>
+
+<span class="nc" id="L66">        } catch (IOException e) {</span>
+<span class="nc" id="L67">            e.printStackTrace();</span>
+<span class="fc" id="L68">        }</span>
+<span class="fc" id="L69">    }</span>
+
+    public void writeNewPosition(List&lt;String&gt; allLines, int score, String newLeader) throws IOException {
+<span class="fc" id="L72">        int insertIndex = 0;</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">        for (String line2 : allLines) {</span>
+<span class="nc" id="L74">            String[] tokens = line2.split(&quot; &quot;);</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">            if (Integer.parseInt(tokens[tokens.length - 1]) &lt; score) {</span>
+<span class="nc" id="L76">                break;</span>
+            }
+<span class="nc" id="L78">            insertIndex++;</span>
+<span class="nc" id="L79">        }</span>
+<span class="fc" id="L80">        allLines.add(insertIndex, newLeader);</span>
+
+<span class="fc" id="L82">        BufferedWriter writer = new BufferedWriter(new FileWriter(file));</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">        for (int i=0;i&lt;allLines.size();i++){</span>
+<span class="fc" id="L84">            writer.write(allLines.get(i)+&quot;\n&quot;);</span>
+        }
+<span class="fc" id="L86">        writer.close();</span>
+<span class="fc" id="L87">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

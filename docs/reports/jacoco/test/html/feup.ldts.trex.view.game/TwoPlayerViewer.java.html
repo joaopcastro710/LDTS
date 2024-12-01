@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TwoPlayerViewer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.view.game</a> &gt; <span class="el_source">TwoPlayerViewer.java</span></div><h1>TwoPlayerViewer.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.view.game;
+
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import feup.ldts.trex.model.elements.Dino;
+import feup.ldts.trex.model.elements.Layout;
+
+import java.io.IOException;
+
+<span class="fc" id="L12">public class TwoPlayerViewer extends GameViewer{</span>
+
+    public void drawElements(Screen screen, Layout layout1, Dino dino1, Layout layout2, Dino dino2 ) throws IOException {
+
+<span class="fc" id="L16">        TextGraphics graphics = screen.newTextGraphics();</span>
+
+<span class="fc" id="L18">        viewer.drawBackground(graphics, &quot;#012000&quot;,new TerminalSize(32,8));</span>
+
+<span class="fc" id="L20">        layoutViewer.drawLayout(graphics,layout1, 3);</span>
+
+<span class="fc" id="L22">        dinoViewer.drawDino(graphics, dino1, &quot;#DBDF51&quot;);</span>
+
+<span class="fc" id="L24">        layoutViewer.drawLayout(graphics,layout2, 6);</span>
+
+<span class="fc" id="L26">        dinoViewer.drawDino(graphics, dino2, String.valueOf(TextColor.ANSI.CYAN_BRIGHT));</span>
+
+<span class="pc bpc" id="L28" title="2 of 4 branches missed.">        drawPowerUp(graphics, dino1.getPowerUp(), dino1.getPowerLength()&gt;0, dino1, dino2.getPowerUp(), dino2.getPowerLength()&gt;0, dino2);</span>
+
+<span class="fc" id="L30">        screen.refresh();</span>
+<span class="fc" id="L31">    }</span>
+
+    public void drawPowerUp(TextGraphics graphics, int type1, boolean used1, Dino dino1, int type2, boolean used2, Dino dino2){
+<span class="fc bfc" id="L34" title="All 2 branches covered.">        if (!used1) {</span>
+<span class="fc" id="L35">            drawPowerNotUsed(graphics, type1, 0);</span>
+        }
+<span class="fc bfc" id="L37" title="All 2 branches covered.">        if (used1) {</span>
+<span class="fc" id="L38">            drawPowerUsed(graphics, type1, dino1, 3);</span>
+        }
+
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (!used2) {</span>
+<span class="fc" id="L42">            drawPowerNotUsed(graphics, type2, 4);</span>
+        }
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        if (used2) {</span>
+<span class="fc" id="L45">            drawPowerUsed(graphics, type2, dino2, 6);</span>
+        }
+<span class="fc" id="L47">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

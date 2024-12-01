@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameOverViewer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.view.game</a> &gt; <span class="el_source">GameOverViewer.java</span></div><h1>GameOverViewer.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.view.game;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
+import feup.ldts.trex.view.LanternaViewer;
+import feup.ldts.trex.view.Viewer;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+<span class="fc" id="L17">public class GameOverViewer {</span>
+
+<span class="fc" id="L19">    Viewer viewer = new LanternaViewer();</span>
+
+    public Screen initializeGameOverScreen() throws URISyntaxException, IOException, FontFormatException {
+<span class="fc" id="L22">        Font font1 = viewer.setFont(&quot;Fonts/prstart.ttf&quot;, 72);</span>
+
+<span class="fc" id="L24">        AWTTerminalFontConfiguration cfg = AWTTerminalFontConfiguration.newInstance(font1);</span>
+
+<span class="fc" id="L26">        TerminalSize terminalSize = new TerminalSize(13, 9);</span>
+<span class="fc" id="L27">        Terminal terminal = viewer.setTerminal(terminalSize, cfg);</span>
+
+<span class="fc" id="L29">        return(viewer.setScreen(terminal));</span>
+    }
+
+    public void drawGameOverScreen(Screen screen, int score, String player) throws IOException {
+<span class="fc" id="L33">        TextGraphics graphics = screen.newTextGraphics();</span>
+
+<span class="fc" id="L35">        player=player.concat(&quot;___&quot;);</span>
+
+<span class="fc" id="L37">        viewer.drawBackground(graphics, &quot;#012000&quot;, screen.getTerminalSize());</span>
+<span class="fc" id="L38">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.YELLOW), new TerminalPosition(2, 1), &quot;GAME OVER&quot;);</span>
+<span class="fc" id="L39">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.YELLOW_BRIGHT), new TerminalPosition(1, 3), &quot;Score: &quot; + score);</span>
+<span class="fc" id="L40">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.CYAN_BRIGHT), new TerminalPosition(2, 5), &quot;Name: &quot; + player.substring(0,3));</span>
+<span class="fc" id="L41">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.GREEN_BRIGHT), new TerminalPosition(0, 7),&quot;Press &lt;Enter&gt;&quot;);</span>
+
+<span class="fc" id="L43">        viewer.screenRefresh(screen);</span>
+<span class="fc" id="L44">    }</span>
+
+    public void drawGameOverScreenTwoPlayers(Screen screen, boolean p1Won) throws IOException {
+<span class="fc" id="L47">        TextGraphics graphics = screen.newTextGraphics();</span>
+
+<span class="fc" id="L49">        viewer.drawBackground(graphics, &quot;#012000&quot;, screen.getTerminalSize());</span>
+<span class="fc" id="L50">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.YELLOW), new TerminalPosition(2, 1), &quot;GAME OVER&quot;);</span>
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        if (p1Won) viewer.drawText(graphics, String.valueOf(TextColor.ANSI.YELLOW_BRIGHT), new TerminalPosition(1, 4), &quot;Winner: P1&quot;);</span>
+<span class="nc" id="L52">        else viewer.drawText(graphics, String.valueOf(TextColor.ANSI.CYAN_BRIGHT), new TerminalPosition(1, 4), &quot;Winner: P2&quot;);</span>
+<span class="fc" id="L53">        viewer.drawText(graphics, String.valueOf(TextColor.ANSI.GREEN_BRIGHT), new TerminalPosition(0, 7),&quot;Press &lt;Enter&gt;&quot;);</span>
+
+<span class="fc" id="L55">        viewer.screenRefresh(screen);</span>
+<span class="fc" id="L56">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

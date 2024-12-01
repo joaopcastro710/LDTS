@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SinglePlayerGame.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.model.game</a> &gt; <span class="el_source">SinglePlayerGame.java</span></div><h1>SinglePlayerGame.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.model.game;
+
+import feup.ldts.trex.controller.game.SinglePlayerController;
+import feup.ldts.trex.model.elements.Layout;
+import feup.ldts.trex.model.elements.Dino;
+import feup.ldts.trex.model.leaderboard.Leaderboard;
+import feup.ldts.trex.model.menu.Menu;
+import feup.ldts.trex.view.game.SinglePlayerViewer;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+public class SinglePlayerGame extends Game{
+
+<span class="fc" id="L16">    int score = 0;</span>
+<span class="fc" id="L17">    public Dino dino = new Dino(2, 6);</span>
+<span class="fc" id="L18">    public Layout layout = new Layout();</span>
+
+<span class="fc" id="L20">    Leaderboard leaderboard = new Leaderboard();</span>
+<span class="fc" id="L21">    SinglePlayerViewer viewer = new SinglePlayerViewer();</span>
+<span class="fc" id="L22">    SinglePlayerController controller = new SinglePlayerController();</span>
+
+<span class="fc" id="L24">    GameOver gameOver = new GameOver();</span>
+<span class="fc" id="L25">    Menu menu = new Menu();</span>
+
+<span class="fc" id="L27">    public SinglePlayerGame() throws URISyntaxException, IOException, FontFormatException {</span>
+<span class="fc" id="L28">        screen = viewer.initializeGame();</span>
+<span class="fc" id="L29">        layout.fillLayout(false);</span>
+<span class="fc" id="L30">    }</span>
+    public void runGame(boolean test) throws Exception {
+<span class="fc bfc" id="L32" title="All 2 branches covered.">        while (!processFrame(dino, layout)){</span>
+<span class="fc" id="L33">            long startTime = System.currentTimeMillis();</span>
+
+<span class="fc" id="L35">            controller.processKey(this,controller.nextAction(screen));</span>
+
+<span class="fc" id="L37">            updateScore();</span>
+
+<span class="fc" id="L39">            dino.updateJumpState();</span>
+
+<span class="fc" id="L41">            boolean bonus = dino.updatePower();</span>
+<span class="pc bpc" id="L42" title="1 of 2 branches missed.">            if (bonus) score=score+30;</span>
+
+<span class="fc" id="L44">            layout.updateLayout();</span>
+
+<span class="fc" id="L46">            viewer.drawElements(screen, layout, dino, score);</span>
+
+<span class="pc bpc" id="L48" title="3 of 4 branches missed.">            if (!test) if (sleepTime(startTime, frameTime())&gt;0) Thread.sleep(sleepTime(startTime, frameTime()));</span>
+<span class="fc" id="L49">        }</span>
+<span class="pc bpc" id="L50" title="1 of 2 branches missed.">        if (!test) gameOver(test);</span>
+<span class="fc" id="L51">    }</span>
+
+    public int frameTime(){
+<span class="fc" id="L54">        return 1000/(layout.getLevel()+9);</span>
+    }
+
+    public void updateScore(){
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        for (int i=0;i&lt;layout.getElements().length;i++){</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">            if(i==dino.getX()){</span>
+<span class="pc bpc" id="L60" title="2 of 4 branches missed.">                if (layout.getElements()[i]=='(' || layout.getElements()[i]==')') score += 4;</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">                else if (layout.getElements()[i]=='&amp;') score += 6;</span>
+<span class="pc bpc" id="L62" title="1 of 2 branches missed.">                else if (layout.getElements()[i]=='P') score += 2;</span>
+<span class="pc bpc" id="L63" title="3 of 4 branches missed.">                else if (layout.getElements()[i]=='*' &amp;&amp; dino.getJumpState()!=0) score += 1;</span>
+            }
+        }
+<span class="fc" id="L66">        score += 1;</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (score/256 &gt; (layout.getLevel()-1)) layout.levelUp();</span>
+<span class="fc" id="L68">    }</span>
+    public void gameOver(boolean test) throws Exception {
+<span class="fc" id="L70">        viewer.closeGameScreen(screen);</span>
+<span class="fc" id="L71">        String player = gameOver.gameOver(score);</span>
+
+<span class="fc" id="L73">        leaderboard.addNewLeader(player, score);</span>
+
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">        while(!test) menu.runMenu();</span>
+<span class="fc" id="L76">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

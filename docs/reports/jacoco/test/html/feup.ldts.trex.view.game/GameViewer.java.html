@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameViewer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.view.game</a> &gt; <span class="el_source">GameViewer.java</span></div><h1>GameViewer.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.view.game;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
+import feup.ldts.trex.model.elements.Dino;
+import feup.ldts.trex.view.LanternaViewer;
+import feup.ldts.trex.view.elements.DinoViewer;
+import feup.ldts.trex.view.elements.LayoutViewer;
+
+import java.awt.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+
+<span class="fc" id="L20">public abstract class GameViewer {</span>
+
+<span class="fc" id="L22">    LanternaViewer viewer = new LanternaViewer();</span>
+<span class="fc" id="L23">    LayoutViewer layoutViewer = new LayoutViewer();</span>
+<span class="fc" id="L24">    DinoViewer dinoViewer = new DinoViewer();</span>
+
+    public Screen initializeGame() throws URISyntaxException, IOException, FontFormatException {
+
+<span class="fc" id="L28">        Font font1 = viewer.setFont(&quot;Fonts/versao7.ttf&quot;, 56);</span>
+<span class="fc" id="L29">        Font font2 = viewer.setFont(&quot;Fonts/prstart.ttf&quot;, 56);</span>
+
+<span class="fc" id="L31">        AWTTerminalFontConfiguration cfg = AWTTerminalFontConfiguration.newInstance(font1,font2);</span>
+
+<span class="fc" id="L33">        Terminal terminal = viewer.setTerminal(new TerminalSize(32, 8), cfg);</span>
+
+<span class="fc" id="L35">        return viewer.setScreen(terminal);</span>
+    }
+
+    public void closeGameScreen(Screen screen) throws IOException {
+<span class="fc" id="L39">        viewer.closeScreen(screen);</span>
+<span class="fc" id="L40">    }</span>
+
+    public void drawPowerNotUsed(TextGraphics graphics, int type, int y){
+<span class="fc bfc" id="L43" title="All 2 branches covered.">        if (type==1){</span>
+<span class="fc" id="L44">            viewer.drawText(graphics,String.valueOf(TextColor.ANSI.RED_BRIGHT),new TerminalPosition(29, y),&quot;f&quot;);</span>
+        }
+<span class="fc bfc" id="L46" title="All 2 branches covered.">        if (type==2){</span>
+<span class="fc" id="L47">            viewer.drawText(graphics,String.valueOf(TextColor.ANSI.GREEN_BRIGHT),new TerminalPosition(29, y),&quot;[&quot;);</span>
+        }
+<span class="fc bfc" id="L49" title="All 2 branches covered.">        if (type==3){</span>
+<span class="fc" id="L50">            viewer.drawText(graphics,String.valueOf(TextColor.ANSI.YELLOW_BRIGHT),new TerminalPosition(29, y),&quot;]&quot;);</span>
+        }
+<span class="fc" id="L52">    }</span>
+
+    public void drawPowerUsed(TextGraphics graphics, int type, Dino dino, int y){
+<span class="fc bfc" id="L55" title="All 2 branches covered.">        if (type==1) {</span>
+<span class="fc" id="L56">            viewer.drawText(graphics, String.valueOf(TextColor.ANSI.RED_BRIGHT), new TerminalPosition(dino.getX() + 1, dino.getY()), &quot;f&quot;);</span>
+<span class="fc" id="L57">            String bar = &quot;&quot;;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">            for (int i = 0; i &lt; dino.getPowerLength(); i+=3) {</span>
+<span class="fc" id="L59">                bar = bar.concat(&quot;|&quot;);</span>
+            }
+<span class="fc" id="L61">            viewer.drawText(graphics,&quot;#9900EB&quot;, new TerminalPosition(dino.getX()+2, y+1), bar);</span>
+        }
+
+<span class="fc bfc" id="L64" title="All 2 branches covered.">        if (type==2) {</span>
+<span class="fc" id="L65">            viewer.drawBackground(graphics, String.valueOf(TextColor.ANSI.YELLOW), graphics.getSize());</span>
+        }
+
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (type==3) {</span>
+<span class="nc" id="L69">            viewer.drawText(graphics,String.valueOf(TextColor.ANSI.WHITE_BRIGHT), new TerminalPosition(1, 1), &quot;+30&quot;);</span>
+        }
+<span class="fc" id="L71">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

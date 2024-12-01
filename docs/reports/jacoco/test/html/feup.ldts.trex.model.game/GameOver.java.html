@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameOver.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.model.game</a> &gt; <span class="el_source">GameOver.java</span></div><h1>GameOver.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.model.game;
+
+import com.googlecode.lanterna.screen.Screen;
+import feup.ldts.trex.controller.game.GameOverController;
+import feup.ldts.trex.view.game.GameOverViewer;
+
+import java.util.Objects;
+
+<span class="fc" id="L9">public class GameOver {</span>
+
+<span class="fc" id="L11">    GameOverViewer viewer = new GameOverViewer();</span>
+<span class="fc" id="L12">    GameOverController controller = new GameOverController();</span>
+
+    public String gameOver(int score) throws Exception {
+<span class="fc" id="L15">        Screen screen = viewer.initializeGameOverScreen();</span>
+
+<span class="fc" id="L17">        String player=&quot;&quot;;</span>
+
+<span class="fc" id="L19">        viewer.drawGameOverScreen(screen, score, player);</span>
+<span class="fc" id="L20">        String next = &quot;&quot;;</span>
+<span class="fc bfc" id="L21" title="All 4 branches covered.">        while(player.length() &lt; 3 || !next.isEmpty()){</span>
+<span class="fc" id="L22">            viewer.drawGameOverScreen(screen, score, player);</span>
+<span class="fc" id="L23">            next = controller.processKey(controller.nextAction(screen),player);</span>
+<span class="pc bpc" id="L24" title="2 of 4 branches missed.">            if (!Objects.equals(next, &quot;&amp;&quot;) &amp;&amp; !Objects.equals(next,&quot;?&quot;)) player = player.concat(next);</span>
+<span class="pc bpc" id="L25" title="1 of 2 branches missed.">            if (Objects.equals(next,&quot;?&quot;)) player = &quot;&quot;;</span>
+        }
+
+<span class="fc" id="L28">        screen.close();</span>
+<span class="fc" id="L29">        return player.substring(0,3);</span>
+    }
+
+    public void gameOverTwoPlayers(boolean p1Won) throws Exception {
+<span class="fc" id="L33">        Screen screen = viewer.initializeGameOverScreen();</span>
+
+<span class="fc" id="L35">        String player=&quot;&quot;;</span>
+
+<span class="fc" id="L37">        viewer.drawGameOverScreenTwoPlayers(screen, p1Won);</span>
+<span class="fc" id="L38">        String next = &quot; &quot;;</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">        while(!next.isEmpty()){</span>
+<span class="fc" id="L40">            viewer.drawGameOverScreenTwoPlayers(screen, p1Won);</span>
+<span class="fc" id="L41">            next = controller.processKey(controller.nextAction(screen),player);</span>
+        }
+
+<span class="fc" id="L44">        screen.close();</span>
+<span class="fc" id="L45">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

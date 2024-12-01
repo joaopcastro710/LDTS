@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LanternaViewer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.view</a> &gt; <span class="el_source">LanternaViewer.java</span></div><h1>LanternaViewer.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.view;
+
+import com.googlecode.lanterna.TerminalPosition;
+import com.googlecode.lanterna.TerminalSize;
+import com.googlecode.lanterna.TextColor;
+import com.googlecode.lanterna.graphics.TextGraphics;
+import com.googlecode.lanterna.screen.Screen;
+import com.googlecode.lanterna.screen.TerminalScreen;
+import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
+import com.googlecode.lanterna.terminal.Terminal;
+import com.googlecode.lanterna.terminal.swing.AWTTerminalFontConfiguration;
+
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+<span class="fc" id="L19">public class LanternaViewer implements Viewer{</span>
+
+    public Font setFont(String name, int size) throws URISyntaxException, IOException, FontFormatException {
+<span class="fc" id="L22">        URL resource = Viewer.class.getClassLoader().getResource(name);</span>
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        if (resource == null) return null;</span>
+<span class="fc" id="L24">        File fontFile = new File(resource.toURI());</span>
+<span class="fc" id="L25">        Font customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);</span>
+<span class="fc" id="L26">        Font loadedFont = customFont.deriveFont(Font.PLAIN, size);</span>
+<span class="fc" id="L27">        GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(customFont);</span>
+<span class="fc" id="L28">        return loadedFont;</span>
+    }
+
+    public Terminal setTerminal(TerminalSize ts, AWTTerminalFontConfiguration cfg) throws IOException {
+<span class="fc" id="L32">        DefaultTerminalFactory terminalFactory = new DefaultTerminalFactory().setInitialTerminalSize(ts).setTerminalEmulatorFontConfiguration(cfg);</span>
+<span class="fc" id="L33">        terminalFactory.setForceAWTOverSwing(true);</span>
+<span class="fc" id="L34">        return terminalFactory.createTerminal();</span>
+    }
+
+    public Screen setScreen(Terminal terminal) throws IOException {
+<span class="fc" id="L38">        Screen s = new TerminalScreen(terminal);</span>
+<span class="fc" id="L39">        s.setCursorPosition(null);</span>
+<span class="fc" id="L40">        s.startScreen();</span>
+<span class="fc" id="L41">        return s;</span>
+    }
+
+    public void drawBackground(TextGraphics graphics, String color, TerminalSize size){
+<span class="fc" id="L45">        graphics.setBackgroundColor(TextColor.ANSI.Factory.fromString(color));</span>
+<span class="fc" id="L46">        graphics.fillRectangle(TerminalPosition.TOP_LEFT_CORNER,size,' ');</span>
+<span class="fc" id="L47">    }</span>
+
+    public void drawText(TextGraphics graphics, String color, TerminalPosition position, String text){
+<span class="fc" id="L50">        graphics.setForegroundColor(TextColor.ANSI.Factory.fromString(color));</span>
+<span class="fc" id="L51">        graphics.putString(position, text);</span>
+<span class="fc" id="L52">    }</span>
+
+    public void screenRefresh(Screen screen) throws IOException {
+<span class="fc" id="L55">        screen.refresh();</span>
+<span class="fc" id="L56">    }</span>
+
+    public void closeScreen(Screen screen) throws IOException {
+<span class="fc" id="L59">        screen.close();</span>
+<span class="fc" id="L60">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Dino.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">T_Rex_LDTS</a> &gt; <a href="index.source.html" class="el_package">feup.ldts.trex.model.elements</a> &gt; <span class="el_source">Dino.java</span></div><h1>Dino.java</h1><pre class="source lang-java linenums">package feup.ldts.trex.model.elements;
+
+public class Dino {
+    private int x;
+    private int y;
+    private int powerUp;
+    private int jumpState;
+    private int powerLength;
+    private int animation;
+
+<span class="fc" id="L11">    public Dino(int x, int y) {</span>
+<span class="fc" id="L12">        this.x = x;</span>
+<span class="fc" id="L13">        this.y = y;</span>
+<span class="fc" id="L14">        this.powerUp = 0;</span>
+<span class="fc" id="L15">        this.jumpState = 0;</span>
+<span class="fc" id="L16">        this.powerLength = 0;</span>
+<span class="fc" id="L17">        this.animation = 0;</span>
+<span class="fc" id="L18">    }</span>
+
+    public int getX() {
+<span class="fc" id="L21">        return x;</span>
+    }
+
+    public int getY() {
+<span class="fc" id="L25">        return y;</span>
+    }
+
+    public void setY(int y) {
+<span class="fc" id="L29">        this.y = y;</span>
+<span class="fc" id="L30">    }</span>
+
+    public int getJumpState() {
+<span class="fc" id="L33">        return jumpState;</span>
+    }
+
+    public void setJumpState(int state) {
+<span class="fc" id="L37">        this.jumpState = state;</span>
+<span class="fc" id="L38">    }</span>
+
+    public void updateJumpState(){
+<span class="fc bfc" id="L41" title="All 2 branches covered.">        if (this.getJumpState()!=0){</span>
+<span class="fc" id="L42">            this.setJumpState(this.getJumpState()-1);</span>
+<span class="fc bfc" id="L43" title="All 2 branches covered.">            if (this.getJumpState()==0){</span>
+<span class="fc" id="L44">                this.setY(this.getY()+1);</span>
+            }
+        }
+<span class="fc" id="L47">    }</span>
+
+    public int getPowerLength() {
+<span class="fc" id="L50">        return powerLength;</span>
+    }
+
+    public void setPowerLength(int frames) {
+<span class="fc" id="L54">        this.powerLength = frames;</span>
+<span class="fc" id="L55">    }</span>
+
+    public int getPowerUp() {
+<span class="fc" id="L58">        return powerUp;</span>
+    }
+
+    public void setPowerUp(int powerUp) {
+<span class="fc" id="L62">        this.powerUp = powerUp;</span>
+<span class="fc" id="L63">    }</span>
+
+    public void powerUsed() {
+<span class="fc bfc" id="L66" title="All 2 branches covered.">        if (getPowerUp()==1) setPowerLength(50);</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        if (getPowerUp()==2) setPowerLength(2);</span>
+<span class="pc bpc" id="L68" title="1 of 2 branches missed.">        if (getPowerUp()==3) setPowerLength(5);</span>
+<span class="fc" id="L69">    }</span>
+
+    public boolean updatePower(){
+<span class="fc" id="L72">        boolean bonus = false;</span>
+<span class="fc bfc" id="L73" title="All 2 branches covered.">        if (getPowerLength()!=0){</span>
+<span class="fc" id="L74">            setPowerLength(getPowerLength()-1);</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">            if (getPowerLength()==0){</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">                if (getPowerUp()==3) bonus = true;</span>
+<span class="fc" id="L77">                setPowerUp(0);</span>
+            }
+        }
+<span class="fc" id="L80">        return bonus;</span>
+    }
+
+    public int getAnimation() {
+<span class="fc" id="L84">        return animation;</span>
+    }
+
+    public void setAnimation(int animation) {
+<span class="fc" id="L88">        this.animation = animation;</span>
+<span class="fc" id="L89">    }</span>
+
+    public String updateDinosaurAnimation(){
+        String anim;
+<span class="fc bfc" id="L93" title="All 2 branches covered.">        if (this.getAnimation()&lt;=0) anim=&quot;T&quot;;</span>
+<span class="fc" id="L94">        else anim=&quot;t&quot;;</span>
+<span class="fc bfc" id="L95" title="All 2 branches covered.">        if (this.getAnimation()&lt;=-2) this.setAnimation(4);</span>
+<span class="fc" id="L96">        this.setAnimation(this.getAnimation()-1);</span>
+<span class="fc" id="L97">        return anim;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
